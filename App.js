@@ -1,16 +1,18 @@
-import { Routes, Route, UNSAFE_RouteContext } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import Graphics from './pages/Graphics';
 import Admin from './pages/Admin';
 import { SponsorContext } from './pages/scenes/graphicsWidgets/Sponsors/Sponsors'
 
 function App() {
+    const [sponsorValue, setSponsorValue] = useState();
     return (
-        <Routes>
-            <SponsorContext.Provider>
+        <SponsorContext.Provider value={{ sponsorValue, setSponsorValue }}>
+            <Routes>
                 <Route path="/" element={<Admin />} />
                 <Route path="/graphics" element={<Graphics />} />
-            </SponsorContext.Provider>
-        </Routes>
+            </Routes>
+        </SponsorContext.Provider>
     );
 }
 

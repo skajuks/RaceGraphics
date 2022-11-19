@@ -4,7 +4,7 @@ import Topbar from './scenes/bars/Topbar';
 import { useState, useContext } from "react";
 import { ColorModeContext, useMode } from '../theme'
 import { ToggleButton } from "@mui/material";
-import { useStatus, SponsorContext } from './scenes/graphicsWidgets/Sponsors/Sponsors'
+import { useStatus, SponsorContext, Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
 
 const ConsoleLog = ({ children }) => {
     console.log(children);
@@ -13,8 +13,8 @@ const ConsoleLog = ({ children }) => {
 
 const Admin = () => {
     const [theme, colorMode] = useMode();
+    const {sponsorValue, setSponsorValue} = useContext(SponsorContext);
     const [isSidebar, setIsSidebar] = useState(true);
-    const sponsorStatus = useContext(SponsorContext);
 
     return (
         <ColorModeContext.Provider value={colorMode}>
@@ -25,12 +25,13 @@ const Admin = () => {
                         <Topbar setIsSidebar={setIsSidebar}/>
                     </main>
                     <ToggleButton
-                        variant="contained"
-                        onClick={sponsorStatus.toggleSponsor}
-                        color={true ? "primary" : "secondary"}
+                        onClick={() => setSponsorValue((prev) => (prev === false ? true : false))}
+                        //sx={sponsorValue ? "color:'green'" : "color:'red'"}
+                        value=""
                     >
-                        Show Sponsors
+                    Show Sponsors
                     </ToggleButton>
+                    {sponsorValue ? <Sponsors /> : null}
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>
