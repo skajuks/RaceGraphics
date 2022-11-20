@@ -1,19 +1,24 @@
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import io from "socket.io-client";
 import Topbar from './scenes/bars/Topbar';
 import { useState, useContext } from "react";
 import { ColorModeContext, useMode } from '../theme'
-import { ToggleButton } from "@mui/material";
-import { useStatus, SponsorContext, Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
+import { Button } from "@mui/material";
+import { Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
 
-const ConsoleLog = ({ children }) => {
-    console.log(children);
-    return false;
-  };
+const socket = io.connect("http://localhost:3001"); // Connect to our socket server
 
 const Admin = () => {
+
+    // Sponsors
+    const [sponsorValue, setSponsorValue] = useState(false);
+    const toggleSponsors = () => {
+        socket.emit("toggle_sponsors", {value: sponsorValue});
+    };
+
     const [theme, colorMode] = useMode();
-    const {sponsorValue, setSponsorValue} = useContext(SponsorContext);
+
     const [isSidebar, setIsSidebar] = useState(true);
 
     return (
@@ -24,14 +29,16 @@ const Admin = () => {
                     <main className="Content">
                         <Topbar setIsSidebar={setIsSidebar}/>
                     </main>
-                    <ToggleButton
-                        onClick={() => setSponsorValue((prev) => (prev === false ? true : false))}
-                        //sx={sponsorValue ? "color:'green'" : "color:'red'"}
-                        value=""
+                    <Button
+                        onClick={() => {
+                                setSponsorValue((prev) => (prev === false ? true : false));
+                                toggleSponsors();
+                        }}
+                        variant="contained"
+                        color={sponsorValue ? "error" : "success"}
                     >
                     Show Sponsors
-                    </ToggleButton>
-                    {sponsorValue ? <Sponsors /> : null}
+                    </Button>
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>
