@@ -29,6 +29,7 @@ const Admin = ({sock},{api_data}) => {
     const [theme, colorMode] = useMode();                   // Light/Dark mode hook
     const [isSidebar, setIsSidebar] = useState(true);       // Sidebar toggle hook
 
+    console.log(api_data);
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
@@ -48,7 +49,9 @@ const Admin = ({sock},{api_data}) => {
                     Show Sponsors
                     </Button>
                     <Button>Show weather</Button>
-                    <div>{api_data}</div>
+                    <div>{
+                        api_data
+                    }</div>
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>

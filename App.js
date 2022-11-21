@@ -8,20 +8,14 @@ import io from "socket.io-client";
 const socket = io.connect("http://localhost:3001");
 
 function App() {
-    const [state, setState] = useState({});
-
-    const getData = () => {
-        try {
-            socket.emit("fetch_api");
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    const [state, setState] = useState({
+        data: [],
+    });
 
     // Update data from API every 0.5 seconds (500 milisec)
     useEffect(() => {
         const intervalCall = setInterval(() => {
-            getData();
+            socket.emit("fetch_api");
         }, 1000);
         return () => {
             clearInterval(intervalCall);
@@ -29,13 +23,13 @@ function App() {
     }, []);
     useEffect(() => {
         socket.on("get_api", (data) => {
-            setState(data);
+            setState({data});
         });
     }, []);
     return (
         <Routes>
-            <Route path="/" element={<Admin sock={socket} api_data={state}/>} />
-            <Route path="/graphics" element={<Graphics sock={socket} api_data={state}/>} />
+            <Route path="/" element={<Admin sock={socket} api_data={state.data}/>} />
+            <Route path="/graphics" element={<Graphics sock={socket} api_data={state.data}/>} />
         </Routes>
     );
 }
