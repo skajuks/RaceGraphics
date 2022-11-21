@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
 
 
-const Graphics = ({sock},{api_data}) => {
+const Graphics = ({sock}) => {
     const [users, setUsers] = useState();
     const [toggleSponsor, setToggleSponsor] = useState();
 

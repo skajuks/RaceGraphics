@@ -7,36 +7,34 @@ import { Button, Box } from "@mui/material";
 // Custom imports
 import Topbar from './scenes/bars/Topbar';
 import { ColorModeContext, useMode } from '../theme'
-
+import { WeatherAdmin } from './scenes/graphicsWidgets/Weather/Weather'
 
 // Admin panel
-const Admin = ({sock},{api_data}) => {
+const Admin = (props) => {
 
     // Sponsors
     const [sponsorValue, setSponsorValue] = useState(false);
     const toggleSponsors = () => {
-        sock.emit("toggle_sponsors", {value: sponsorValue});
+        props.sock.emit("toggle_sponsors", {value: sponsorValue});
     };
     // Weather
     const [weatherValue, setWeatherValue] = useState(false);
     const toggleWeather = () => {
-        sock.emit("toggle_weather", {value: weatherValue});
+        props.sock.emit("toggle_weather", {value: weatherValue});
     };
     //
-
 
     // Hooks
     const [theme, colorMode] = useMode();                   // Light/Dark mode hook
     const [isSidebar, setIsSidebar] = useState(true);       // Sidebar toggle hook
 
-    console.log(api_data);
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <div className="admin">
                     <main className="Content">
-                        <Topbar setIsSidebar={setIsSidebar}/>
+                        <Topbar setIsSidebar={setIsSidebar} data={props.api_data}/>
                     </main>
                     <Button
                         onClick={() => {
@@ -49,8 +47,9 @@ const Admin = ({sock},{api_data}) => {
                     Show Sponsors
                     </Button>
                     <Button>Show weather</Button>
+                    <WeatherAdmin data={props.api_data}></WeatherAdmin>
                     <div>{
-                        api_data
+
                     }</div>
                 </div>
             </ThemeProvider>

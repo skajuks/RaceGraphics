@@ -5,4 +5,4 @@ export const Sponsors = () => {
     return (
             <h1>Sponsors placeholder</h1>
     );
-;}
+};
