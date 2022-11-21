@@ -8,6 +8,7 @@ import { Button, Box } from "@mui/material";
 import Topbar from './scenes/bars/Topbar';
 import { ColorModeContext, useMode } from '../theme'
 import { WeatherAdmin } from './scenes/graphicsWidgets/Weather/Weather'
+import { HashtagAdmin } from './scenes/graphicsWidgets/Hashtag/Hashtag'
 
 // Admin panel
 const Admin = (props) => {
@@ -22,7 +23,11 @@ const Admin = (props) => {
     const toggleWeather = () => {
         props.sock.emit("toggle_weather", {value: weatherValue});
     };
-    //
+    // Hashtag
+    const [hashtagValue, setHashtagValue] = useState(false);
+    const toggleHashtag = () => {
+        props.sock.emit("toggle_hashtag", {value: hashtagValue});
+    };
 
     // Hooks
     const [theme, colorMode] = useMode();                   // Light/Dark mode hook
@@ -46,8 +51,31 @@ const Admin = (props) => {
                     >
                     Show Sponsors
                     </Button>
-                    <Button>Show weather</Button>
-                    <WeatherAdmin data={props.api_data}></WeatherAdmin>
+                    <Button
+                        variant="contained"
+                        color={weatherValue ? "success" : "error"}
+                        style={{marginLeft: '0.8rem'}}
+                        onClick={() => {
+                                setWeatherValue((prev) => (prev === false ? true : false));
+                                toggleWeather();
+                        }}
+                    >
+                    Show Weather
+                    </Button>
+                    <WeatherAdmin data={props.api_data} toggle={weatherValue}></WeatherAdmin>
+                    <Button
+                        variant="contained"
+                        color={hashtagValue ? "success" : "error"}
+                        style={{marginLeft: '0.8rem'}}
+                        onClick={() => {
+                                setHashtagValue((prev) => (prev === false ? true : false));
+                                toggleHashtag();
+                        }}
+                    >
+                    Show Hashtag
+                    </Button>
+                    {<HashtagAdmin toggle={hashtagValue}></HashtagAdmin>}
+
                     <div>{
 
                     }</div>

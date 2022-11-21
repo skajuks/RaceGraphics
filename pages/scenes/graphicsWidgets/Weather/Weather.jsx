@@ -54,7 +54,7 @@ export const WeatherAdmin = (props) => {
         display: 'flex',
         justifyContent: 'center'
         }}
-        style={{backgroundColor: '#0f1524'}}>
+        style={{backgroundColor: '#0f1524', visibility: props.toggle ? "visible" : "hidden"}}>
             <Box style={{alignItems: 'center', justifyContent: 'center',display: 'flex',}}>
                 <TextField
                     id="outlined-basic"
@@ -84,7 +84,7 @@ export const WeatherAdmin = (props) => {
                 <Box>{weather.error ? `Error: ${weather.reason}` : ""}</Box>
             </Box>
 
-            {weather.error ? null :
+            {(weather.error) || (!weather.current) ? null :
                 <Box sx={{ width: '95%',
                 height: '100%',
                 margin: '0.8rem',
