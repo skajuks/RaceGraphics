@@ -1,22 +1,16 @@
-import fetchData from "../fetchAPI"
-import io from "socket.io-client";
-import React, { useEffect, useState, useContext } from "react";
-import { useQuery } from 'react-query'
-import { getApiData } from '../fetchAPI'
-import { SponsorContext, Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
+import React, { useEffect, useState } from "react";
+import { Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
 
-const socket = io.connect("http://localhost:3001"); // Connect to our socket server
 
-const Graphics = () => {
+const Graphics = ({sock},{api_data}) => {
     const [users, setUsers] = useState();
     const [toggleSponsor, setToggleSponsor] = useState();
 
     useEffect(() => {
-        socket.on("receive_sponsors", (data) => {
-            console.log("Received msg : " + data + toggleSponsor);
+        sock.on("receive_sponsors", (data) => {
             setToggleSponsor(data);
         });
-    }, [socket]);
+    }, [sock]);
     return (
         <div className="">
             {toggleSponsor ? <Sponsors /> : null}

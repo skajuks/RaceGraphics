@@ -1,25 +1,33 @@
 
+// React imports
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import io from "socket.io-client";
+import { useState } from "react";
+import { Button, Box } from "@mui/material";
+
+// Custom imports
 import Topbar from './scenes/bars/Topbar';
-import { useState, useContext } from "react";
 import { ColorModeContext, useMode } from '../theme'
-import { Button } from "@mui/material";
-import { Sponsors } from './scenes/graphicsWidgets/Sponsors/Sponsors'
 
-const socket = io.connect("http://localhost:3001"); // Connect to our socket server
 
-const Admin = () => {
+// Admin panel
+const Admin = ({sock},{api_data}) => {
 
     // Sponsors
     const [sponsorValue, setSponsorValue] = useState(false);
     const toggleSponsors = () => {
-        socket.emit("toggle_sponsors", {value: sponsorValue});
+        sock.emit("toggle_sponsors", {value: sponsorValue});
     };
+    // Weather
+    const [weatherValue, setWeatherValue] = useState(false);
+    const toggleWeather = () => {
+        sock.emit("toggle_weather", {value: weatherValue});
+    };
+    //
 
-    const [theme, colorMode] = useMode();
 
-    const [isSidebar, setIsSidebar] = useState(true);
+    // Hooks
+    const [theme, colorMode] = useMode();                   // Light/Dark mode hook
+    const [isSidebar, setIsSidebar] = useState(true);       // Sidebar toggle hook
 
     return (
         <ColorModeContext.Provider value={colorMode}>
@@ -39,6 +47,8 @@ const Admin = () => {
                     >
                     Show Sponsors
                     </Button>
+                    <Button>Show weather</Button>
+                    <div>{api_data}</div>
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>
