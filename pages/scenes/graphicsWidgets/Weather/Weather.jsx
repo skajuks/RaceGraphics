@@ -4,6 +4,11 @@ import { useState } from "react";
 // Icons imports
 import { WiDaySunny, WiDaySnow, WiCelsius, WiStrongWind, WiWindDeg } from "weather-icons-react";
 
+const weatherIconsMap = {
+    0:  <WiDaySunny size={48} color='#00' />,
+    71: <WiDaySnow size={48} color='#00' />,
+};
+
 export const WeatherAdmin = (props) => {
     const [values, setValues] = useState({
         lat: "",
@@ -15,13 +20,7 @@ export const WeatherAdmin = (props) => {
         reason: ""
     });
 
-    const weatherIconsMap = {
-        0:  <WiDaySunny size={48} color='#00' />,
-        71: <WiDaySnow size={48} color='#00' />,
-    };
-
     const getWeatherData = async () => {
-        console.log(values);
         try {
             const response = fetch(
                 `https://api.open-meteo.com/v1/forecast?latitude=${values.lat}&longitude=${values.lng}&current_weather=true`).then(
@@ -33,7 +32,6 @@ export const WeatherAdmin = (props) => {
                         reason: json.reason
                     })
                 );
-                console.log(weather.error)
         } catch (err) {
             setWeather({
                 error: err.message
@@ -112,6 +110,15 @@ export const WeatherAdmin = (props) => {
                         <h2>{`${weather.current.winddirection} °`}</h2>
                     </Box>
                 </Box>}
+        </Box>
+    );
+};
+
+export const Weather = (props) => {
+    return (
+        <Box style={{backgroundColor: '#420275',
+                     left: "0", top: "50%", position: "absolute"}}>
+            <h1>Weather placeholder</h1>
         </Box>
     );
 };

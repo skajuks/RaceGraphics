@@ -28,7 +28,11 @@ const Admin = (props) => {
     const toggleHashtag = () => {
         props.sock.emit("toggle_hashtag", {value: hashtagValue});
     };
-
+    // Main Timer
+    const [maintimerValue, setMaintimerValue] = useState(false);
+    const toggleMaintimer = () => {
+        props.sock.emit("toggle_maintimer", {value: maintimerValue});
+    };
     // Hooks
     const [theme, colorMode] = useMode();                   // Light/Dark mode hook
     const [isSidebar, setIsSidebar] = useState(true);       // Sidebar toggle hook
@@ -42,12 +46,12 @@ const Admin = (props) => {
                         <Topbar setIsSidebar={setIsSidebar} data={props.api_data}/>
                     </main>
                     <Button
+                        variant="contained"
+                        color={sponsorValue ? "success" : "error"}
                         onClick={() => {
-                                setSponsorValue((prev) => (prev === false ? true : false));
+                                setSponsorValue(sponsorValue => !sponsorValue);
                                 toggleSponsors();
                         }}
-                        variant="contained"
-                        color={sponsorValue ? "error" : "success"}
                     >
                     Show Sponsors
                     </Button>
@@ -74,11 +78,21 @@ const Admin = (props) => {
                     >
                     Show Hashtag
                     </Button>
-                    {<HashtagAdmin toggle={hashtagValue}></HashtagAdmin>}
-
-                    <div>{
-
-                    }</div>
+                    {<HashtagAdmin toggle={hashtagValue} sock={props.sock}></HashtagAdmin>}
+                    <Button
+                        variant="contained"
+                        color={maintimerValue ? "success" : "error"}
+                        style={{marginLeft: '0.8rem'}}
+                        onClick={() => {
+                                setMaintimerValue((prev) => (prev === false ? true : false));
+                                toggleMaintimer();
+                        }}
+                    >
+                    Show Main Timer
+                    </Button>
+                    <div>
+                        <iframe src="http://localhost:3000/graphics"></iframe>
+                    </div>
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>

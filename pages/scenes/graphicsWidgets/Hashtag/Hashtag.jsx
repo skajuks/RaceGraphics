@@ -1,10 +1,17 @@
-import { Button, Box, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
 
-export const Hashtag = () => {
 
+export const Hashtag = ({ value }) => {
     return (
-            <h1>Hashtag placeholder</h1>
+        <div style={{right: "0",
+                     top: "30%",
+                     position: "absolute",
+                     maxHeight: "10%",
+                     maxWidth: "20%",
+                     marginRight: "30px"}}>
+            <h1 style={{color: "white", fontSize: "40px"}}>{`#${value}`}</h1>
+        </div>
     );
 };
 
@@ -13,6 +20,7 @@ export const HashtagAdmin = (props) => {
 
     const changeHandler = e => {
         setValue(e.target.value);
+        props.sock.emit("set_hashtag_value", {value: e.target.value});
     }
 
     return (
